@@ -1,4 +1,12 @@
 import pygame
+global LEFT, RIGHT, UP, DOWN
+
+LEFT = (-1, 0)
+RIGHT = (1, 0)
+UP = (0, 1)
+DOWN = (0, -1)
+
+
 
 class cube(object):
     rows = 20
@@ -9,6 +17,21 @@ class cube(object):
         self.dirny = 0
         self.color = color
 
+    # Distance between a cube and a coord of form (x, y)
+    def distToCube(self, coord):
+        return (abs(self.pos[0] - coord[0]) + abs(self.pos[1] - coord[1]), coord)
+
+    def getRightCubeCoords(self):
+        return (self.pos[0] + 1, self.pos[1])
+
+    def getLeftCubeCoords(self):
+        return (self.pos[0] - 1, self.pos[1])
+
+    def getUpCubeCoords(self):
+        return (self.pos[0] , self.pos[1] + 1)
+
+    def getDownCubeCoords(self):
+        return (self.pos[0], self.pos[1] - 1)
 
     def move(self, dirnx, dirny):
         self.dirnx = dirnx

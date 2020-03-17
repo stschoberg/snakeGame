@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import messagebox
 from snake import snake
 from cube import cube
+import time
 
 def drawGrid(w, rows, surface):
     sizeBtwn = w // rows
@@ -54,6 +55,11 @@ def message_box(subject, content):
     except:
         pass
 
+def game_over(s):
+    print('Score: ', len(s.body))
+    # message_box('You Lost!', 'Play again...')
+    s.reset((random.randrange(rows),random.randrange(rows)))
+
 
 def main():
     global width, rows, s, snack
@@ -64,22 +70,34 @@ def main():
     snack = cube(randomSnack(rows, s), color=(0,255,0))
     flag = True
 
+    redrawWindow(win)
     clock = pygame.time.Clock()
+    print("done sleeping")
 
     while flag:
         pygame.time.delay(50)
-        clock.tick(10)
-        s.move()
+        clock.tick(25)
+        # s.move_keys()
+        s.move_random()
+        # s.move_bfs(snack)
+        # s.move_bfs(snack)
         if s.body[0].pos == snack.pos:
             s.addCube()
             snack = cube(randomSnack(rows, s), color=(0,255,0))
 
+        # Lose from collision with wall
+        if ((s.body[0].pos[0] == 19 and s.body[0].dirnx == -1) or
+            (s.body[0].pos[0] == 0 and s.body[0].dirnx == 1) or
+            (s.body[0].pos[1] == 0 and s.body[0].dirny == 1) or
+            (s.body[0].pos[1] == 19 and s.body[0].dirny == -1)):
+            game_over(s)
+        # Lose by collision with body
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z:z.pos,s.body[x+1:])):
-                print('Score: ', len(s.body))
-                # message_box('You Lost!', 'Play again...')
-                s.reset((10,10))
+                game_over(s)
                 break
+
+
 
 
         redrawWindow(win)
