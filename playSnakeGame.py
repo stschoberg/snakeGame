@@ -8,6 +8,7 @@ from snake import snake
 from cube import cube
 import time
 import sys
+import datetime
 
 def drawGrid(w, rows, surface):
     sizeBtwn = w // rows
@@ -79,7 +80,7 @@ def main(argv):
     while flag and count < 100:
         pygame.time.delay(10)
         clock.tick(10)
-        s.move(argv[0], snack)
+        s.move_with_mode(argv[0], snack)
         if s.body[0].pos == snack.pos:
             s.addCube()
             snack = cube(randomSnack(rows, s), color=(0,255,0))
@@ -101,7 +102,10 @@ def main(argv):
         redrawWindow(win)
 
     # Save Score results to an outfile
-    with open('bfs_scores.txt', 'w') as f:
+    with open(argv[0] + datetime.datetime.today().strftime('%d-%m-%Y')+ '.txt', 'w') as f:
+        for listitem in scores:
+            f.write('%s\n' % listitem)
+    with open(argv[0] + '_lifetime_log.txt', 'a+') as f:
         for listitem in scores:
             f.write('%s\n' % listitem)
 

@@ -1,6 +1,7 @@
 from cube import cube
 import pygame
 import random
+
 LEFT = (-1, 0)
 RIGHT = (1, 0)
 UP = (0, 1)
@@ -38,13 +39,15 @@ class snake(object):
                 elif c.dirny == -1 and c.pos[1] <= 0: c.pos = (c.pos[0],c.rows-1)
                 else: c.move(c.dirnx,c.dirny)  # If we haven't reached the edge just move in our current direction
 
-    def move(self, mode, fruit):
+    def move_with_mode(self, mode, fruit):
         if mode == "bfs":
             self.move_bfs(fruit)
         elif mode == "human":
             self.move_keys()
         elif mode == "random":
             self.move_random()
+        elif mode == "better-bfs":
+            self.move_bfs_enhanced(fruit)
         else:
             self.move_keys()
 
@@ -59,15 +62,33 @@ class snake(object):
         if currDir == RIGHT:
             res = min([rDist, upDist, downDist], key = lambda i: i[0])[1]
         elif currDir == LEFT:
-            res = (min([lDist, upDist, downDist], key = lambda i: i[0])[1])
+            res = min([lDist, upDist, downDist], key = lambda i: i[0])[1]
         elif currDir == UP:
-            res = (min([rDist, upDist, lDist], key = lambda i: i[0])[1])
+            res = min([rDist, upDist, lDist], key = lambda i: i[0])[1]
         elif (currDir == DOWN):
-            res = (min([rDist, lDist, downDist], key = lambda i: i[0])[1])
-        else:
+            res = min([rDist, lDist, downDist], key = lambda i: i[0])[1]
+
+        self.updateDir(res[0], res[1])
+        self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+        self.move_body()
+
+    def body_to_list(self):
+        return list(map(lambda i: i.pos, self.body))
+
+    def move_bfs_enhanced(self, fruit):
+        for e in pygame.event.get(): None
 
 
-            print("ERROR")
+        lst = [(self.body[0].getRightCubeCoords(), RIGHT), (self.body[0].getLeftCubeCoords(), LEFT),
+        (self.body[0].getUpCubeCoords(), UP), (self.body[0].getDownCubeCoords(), DOWN)]
+
+
+        availible_dirs = list(filter(lambda i: i[0] not in self.body_to_list(), lst))
+
+        # Snake has closed itself in. Choose any direction and restart
+        if len(availible_dirs) == 0:
+            res = UP
+        else: res = min(availible_dirs, key = lambda i: fruit.distToCube(i[0]))[1]
         self.updateDir(res[0], res[1])
         self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
         self.move_body()

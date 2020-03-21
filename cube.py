@@ -18,6 +18,7 @@ class cube(object):
         self.color = color
 
     # Distance between a cube and a coord of form (x, y)
+    # Return (distance_to_cell, coord of form: (x, y))
     def distToCube(self, coord):
         return (abs(self.pos[0] - coord[0]) + abs(self.pos[1] - coord[1]), coord)
 
