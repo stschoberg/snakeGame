@@ -38,9 +38,19 @@ class snake(object):
                 elif c.dirny == -1 and c.pos[1] <= 0: c.pos = (c.pos[0],c.rows-1)
                 else: c.move(c.dirnx,c.dirny)  # If we haven't reached the edge just move in our current direction
 
+    def move(self, mode, fruit):
+        if mode == "bfs":
+            self.move_bfs(fruit)
+        elif mode == "human":
+            self.move_keys()
+        elif mode == "random":
+            self.move_random()
+        else:
+            self.move_keys()
+
     def move_bfs(self, fruit):
+        for e in pygame.event.get(): None
         currDir = (self.dirnx, self.dirny)
-        print("entered")
         rDist = (fruit.distToCube(self.body[0].getRightCubeCoords()), RIGHT)
         lDist = (fruit.distToCube(self.body[0].getLeftCubeCoords()), LEFT)
         upDist = (fruit.distToCube(self.body[0].getUpCubeCoords()), UP)
@@ -63,6 +73,7 @@ class snake(object):
         self.move_body()
 
     def move_random(self):
+        for event in pygame.event.get(): None
         dir = random.choice([(-1, 0), (1, 0), (0, -1), (0, 1)])
         self.updateDir(dir[0], dir[1])
         self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
