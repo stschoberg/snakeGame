@@ -32,12 +32,7 @@ class snake(object):
                 if i == len(self.body)-1:
                     self.turns.pop(p)
             else:
-                # If the cube reaches the edge of the screen we will make it appear on the opposite side
-                if c.dirnx == -1 and c.pos[0] <= 0: c.pos = (c.rows-1, c.pos[1])
-                elif c.dirnx == 1 and c.pos[0] >= c.rows-1: c.pos = (0,c.pos[1])
-                elif c.dirny == 1 and c.pos[1] >= c.rows-1: c.pos = (c.pos[0], 0)
-                elif c.dirny == -1 and c.pos[1] <= 0: c.pos = (c.pos[0],c.rows-1)
-                else: c.move(c.dirnx,c.dirny)  # If we haven't reached the edge just move in our current direction
+                c.move(c.dirnx,c.dirny)  # If we haven't reached the edge just move in our current direction
 
     def move_with_mode(self, mode, fruit):
         if mode == "--shortest":
@@ -47,7 +42,7 @@ class snake(object):
         elif mode == "--random":
             self.move_random()
         elif mode == "--better-shortest":
-            self.move_shortestb_enhanced(fruit)
+            self.move_shortest_enhanced(fruit)
         else:
             self.move_keys()
 
@@ -82,8 +77,9 @@ class snake(object):
         lst = [(self.body[0].getRightCubeCoords(), RIGHT), (self.body[0].getLeftCubeCoords(), LEFT),
         (self.body[0].getUpCubeCoords(), UP), (self.body[0].getDownCubeCoords(), DOWN)]
 
-
         availible_dirs = list(filter(lambda i: i[0] not in self.body_to_list(), lst))
+        # Reduces bias in picking direction of snake when it cannot get closer to the snack
+        random.shuffle(lst)
 
         # Snake has closed itself in. Choose any direction and restart
         if len(availible_dirs) == 0:

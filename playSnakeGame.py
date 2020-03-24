@@ -57,9 +57,11 @@ def message_box(subject, content):
     except:
         pass
 
-def game_over(s):
+def game_over(s, argv):
     print('Score: ', len(s.body))
     scores.append(len(s.body))
+    with open(argv[0] + '_lifetime_log.txt', 'a+') as f:
+        f.write('%s\n' % len(s.body))
     # message_box('You Lost!', 'Play again...')
     s.reset((random.randrange(rows),random.randrange(rows)))
 
@@ -86,16 +88,16 @@ def main(argv):
             snack = cube(randomSnack(rows, s), color=(0,255,0))
 
         # Lose from collision with wall
-        if ((s.body[0].pos[0] == 19 and s.body[0].dirnx == -1) or
-            (s.body[0].pos[0] == 0 and s.body[0].dirnx == 1) or
-            (s.body[0].pos[1] == 0 and s.body[0].dirny == 1) or
-            (s.body[0].pos[1] == 19 and s.body[0].dirny == -1)):
-            game_over(s)
+        if ((s.body[0].pos[0] == -1) or
+            (s.body[0].pos[0] == rows) or
+            (s.body[0].pos[1] == -1) or
+            (s.body[0].pos[1] == rows)):
+            game_over(s, argv)
             count = count +1
         # Lose by collision with body
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z:z.pos,s.body[x+1:])):
-                game_over(s)
+                game_over(s, argv)
                 count = count + 1
                 break
 
@@ -105,9 +107,7 @@ def main(argv):
     with open(argv[0] + datetime.datetime.today().strftime('%d-%m-%Y')+ '.txt', 'w') as f:
         for listitem in scores:
             f.write('%s\n' % listitem)
-    with open(argv[0] + '_lifetime_log.txt', 'a+') as f:
-        for listitem in scores:
-            f.write('%s\n' % listitem)
+
 
 
 if __name__ == "__main__":
