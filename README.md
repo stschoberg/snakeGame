@@ -9,7 +9,7 @@ https://techwithtim.net/tutorials/game-development-with-python/snake-pygame/
 ## Installation
 
 ```bash
-git clone blahblah
+git clone https://github.com/stschoberg/snakeGame.git
 ```
 ## Usage
 
