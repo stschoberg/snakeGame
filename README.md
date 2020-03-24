@@ -20,6 +20,6 @@ The game has various runmodes
 4. better-shortest - the ai chooses the shortest path to the path but will avoid its own body
 
 ```bash
-python3 playSnakeGame --option # where option is a mode listed above
+python3 playSnakeGame.py --option # where option is a mode listed above
 ```
 
