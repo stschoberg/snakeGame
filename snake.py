@@ -40,18 +40,18 @@ class snake(object):
                 else: c.move(c.dirnx,c.dirny)  # If we haven't reached the edge just move in our current direction
 
     def move_with_mode(self, mode, fruit):
-        if mode == "bfs":
+        if mode == "--shortest":
             self.move_bfs(fruit)
-        elif mode == "human":
+        elif mode == "--human":
             self.move_keys()
-        elif mode == "random":
+        elif mode == "--random":
             self.move_random()
-        elif mode == "better-bfs":
-            self.move_bfs_enhanced(fruit)
+        elif mode == "--better-shortest":
+            self.move_shortestb_enhanced(fruit)
         else:
             self.move_keys()
 
-    def move_bfs(self, fruit):
+    def move_shortest(self, fruit):
         for e in pygame.event.get(): None
         currDir = (self.dirnx, self.dirny)
         rDist = (fruit.distToCube(self.body[0].getRightCubeCoords()), RIGHT)
@@ -75,7 +75,7 @@ class snake(object):
     def body_to_list(self):
         return list(map(lambda i: i.pos, self.body))
 
-    def move_bfs_enhanced(self, fruit):
+    def move_shortest_enhanced(self, fruit):
         for e in pygame.event.get(): None
 
 
