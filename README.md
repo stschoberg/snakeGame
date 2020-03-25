@@ -17,6 +17,7 @@ The game has various runmodes
 2. random - the ai chooses a random path with no respect for the snack
 3. shortest - the ai chooses the shortest path to the snack
 4. better-shortest - the ai chooses the shortest path to the path but will avoid its own body
+5. hamiltonian - guarenteed to win. takes a while
 
 ```bash
 python3 playSnakeGame.py --option # where option is a mode listed above
