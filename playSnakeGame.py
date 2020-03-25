@@ -1,4 +1,3 @@
-#Snake Tutorial Python
 import math
 import random
 import pygame
@@ -60,9 +59,10 @@ def message_box(subject, content):
 def game_over(s, argv):
     print('Score: ', len(s.body))
     scores.append(len(s.body))
-    with open(argv[0] + '_lifetime_log.txt', 'a+') as f:
+    with open(argv[0][2:] + '_lifetime_log.txt', 'a+') as f:
         f.write('%s\n' % len(s.body))
     # message_box('You Lost!', 'Play again...')
+    s.clear_visited()
     s.reset((random.randrange(rows),random.randrange(rows)))
 
 
@@ -79,12 +79,14 @@ def main(argv):
     redrawWindow(win)
     clock = pygame.time.Clock()
     count = 0
-    while flag and count < 100:
+
+
+    while flag and count < 50:
         pygame.time.delay(10)
         clock.tick(10)
         s.move_with_mode(argv[0], snack)
         if s.body[0].pos == snack.pos:
-            s.addCube()
+            s.add_cube()
             snack = cube(randomSnack(rows, s), color=(0,255,0))
 
         # Lose from collision with wall
