@@ -3,6 +3,9 @@
 This is a project to implement different AI solutions to solve the classic snake game. All of the AI implementations are my own however the game itself is built from a tutorial by techwithtim linked below.
 
 
+[Here](https://medium.com/@stschoberg/playing-snake-with-ai-2ea68f0e914a) is some analysis of the algorithms
+
+
 https://techwithtim.net/tutorials/game-development-with-python/snake-pygame/
 
 ## Installation
